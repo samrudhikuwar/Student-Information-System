@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+	<meta charset="UTF-8">
+	<title>Register-login Form</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+  <script>
+
+function verifyPassword() {  
+  var pw = document.getElementById("password").value;  
+
+  console.log(pw);
+  //check empty password field  
+  if(pw == "") {  
+     document.getElementById("message").innerHTML = "**Fill the password please!";  
+     return false;  
+  }  
+   
+ //minimum password length validation  
+  if(pw.length < 8) {  
+     document.getElementById("message").innerHTML = "**Password length must be atleast 8 characters";  
+     return false;  
+  }  
+  
+//maximum length of password validation  
+  if(pw.length > 15) {  
+     document.getElementById("message").innerHTML = "**Password length must not exceed 15 characters";  
+     return false;  
+  } else {  
+     alert("Password is correct");  
+  }  
+}  
+    
+</script>
+	<script>
+		$(document).ready(function(){
+			$(".register").hide();
+			$(".login_li").addClass("active");
+
+			$(".login_li").click(function(){
+			  $(this).addClass("active");
+			  $(".register_li").removeClass("active");
+			  $(".login").show();
+			   $(".register").hide();
+			})
+
+			$(".register_li").click(function(){
+			  $(this).addClass("active");
+			  $(".login_li").removeClass("active");
+			  $(".register").show();
+			   $(".login").hide();
+			})
+
+     
+		});
+	</script>
+</head>
+<body>
+  <form onsubmit ="return verifyPassword()"> 
+
+  <div class="wrapper">
+  <div class="left"> 
+    <img src="/student.png" alt="Student_image">
+  </div>
+  <div class="right">
+    <div class="tabs">
+      <ul>
+        
+        <li class="login_li">login</li>
+        <li class="register_li">Register</li>
+      </ul>
+    </div>
+    
+    <div class="login">
+      <div class="input_field">
+        <input type="email" id="email" size="64" maxlength="64" required  placeholder="E-mail" pattern=".+@beststartupever\.com" class="input">
+      </div>
+      <div class="input_field">
+        <input type="password" id="password" placeholder="Password" value = "" class="input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+      </div>
+      <div class="btn" value = "Submit"><a href="#">Login</a></div>
+      
+    </div>
+
+
+
+    <div class="register">
+      <div class="input_field">
+        <input type="text" id="username" placeholder="Username" class="input">
+      </div>
+      <div class="input_field">
+        <input type="email" id="email" size="64" maxlength="64" required  placeholder="E-mail" pattern=".+@beststartupever\.com" class="input">
+      </div>
+      <div class="input_field">
+        <input type="password" id="password" placeholder="Password" value = "" class="input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+      </div>
+      <form onsubmit ="return verifyPassword()"> 
+      <div class="input_field">
+        <input type="text" id="phoneno" placeholder="Phone no" size="10" required class="input">
+      </div>
+      <div>
+        <input type="radio" value="Male" name="gender" checked required> Male 
+        <input type="radio" value="Female" name="gender"> Female 
+        <input type="radio" value="Other" name="gender"> Other
+      </div>
+      <div inputmode="submit" class="btn" ><a href="#">Register</a></div>
+    </div>
+    
+    
+    
+  </div>
+</div>
+</form>
+</body>
+</html>
