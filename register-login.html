@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register-login Form</title>
+  <link rel="stylesheet" href="login.css">
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    $("a#submit_login").click(function () {
+      $("#submit_login").submit();
+      return false;
+    });
+  </script>
+
+  <script>
+      async function login() {
+      var uname = document.getElementById("emaill").value;
+      var pwd = document.getElementById("passwordl").value;
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      var output =  await axios.get(`http://localhost:3005/login/${uname}`)
+      output=output.data 
+
+      if (uname == '') {
+        alert("please enter user name.");
+      }
+      else if (pwd == '') {
+        alert("enter the password");
+      }
+      else if (!filter.test(uname)) {
+        alert("Enter valid email id.");
+      }
+      else if (pwd.length < 6 || pwd.length > 6) {
+        alert("Password min and max length is 6.");
+      }
+      else if (uname != output) {
+        alert("User Name Not Found");
+      }  
+      else {
+        alert('Thank You for Login');
+    window.onload = function () {
+    document.getElementById("menu").innerHTML='<form action="/login" method="get"></form>';
+    }
+        window.location = '/admin-dashboard.html';
+      }
+    }
+    function clearFunc() {
+      document.getElementById("emaill").value = "";
+      document.getElementById("passwordl").value = "";
+    }
+  </script>
+  <script>
+    function registration() {
+
+      var uname = document.getElementById("Usernamer").value;
+      var email = document.getElementById("emailr").value;
+      var pwd = document.getElementById("passwordr").value;
+      var User = document.getElementById("User").value
+
+
+
+
+      var pwd_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/;
+      var letters = /^[A-Za-z]+$/;
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+      if (uname == '') {
+        alert('Please enter the username');
+      }
+      else if (!letters.test(uname)) {
+        alert('Name field required only alphabet characters');
+      }
+      else if (email == '') {
+        alert('Please enter your user email id');
+      }
+      else if (!filter.test(email)) {
+        alert('Invalid email');
+      }
+      else if (pwd == '') {
+        alert('Please enter Password');
+      }
+      else if (!pwd_expression.test(pwd)) {
+        alert('Upper case, Lower case, Special character and Numeric letter are required in Password fieled');
+      }
+      else if (document.getElementById("passwordr").value.length < 6) {
+        alert('Password minimum length is 6');
+      }
+      else if (document.getElementById("passwordr").value.length > 12) {
+        alert('Password max length is 12');
+      }
+      else if (document.getElementById("User").value == "") {
+        alert('Please select User');
+      }
+      else {
+
+        alert('Registration Successful');
+      }
+    }
+    function clearFunc() {
+      document.getElementById("Usernamer").value = "";
+      document.getElementById("emailr").value = "";
+      document.getElementById("passwordr").value = "";
+      document.getElementById("User").value = "";
+    }
+
+  </script>
+<script>
+
+
+</script>
+
+  <script>
+    $(document).ready(function () {
+      $(".register").hide();
+      $(".login_li").addClass("active");
+
+      $(".login_li").click(function () {
+        $(this).addClass("active");
+        $(".register_li").removeClass("active");
+        $(".login").show();
+        $(".register").hide();
+      })
+
+      $(".register_li").click(function () {
+        $(this).addClass("active");
+        $(".login_li").removeClass("active");
+        $(".register").show();
+        $(".login").hide();
+      })
+
+    });
+  </script>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div class="left">
+      <img src="/student.png" alt="Student_image">
+    </div>
+    <div class="right">
+      <div class="tabs">
+        <ul>
+
+          <li class="login_li">login</li>
+          <li class="register_li">Register</li>
+        </ul>
+      </div>
+
+      <div class="login">
+        <div class="input_field">
+
+          <input type="text" name="emaill" id="emaill" size="15" maxlength="30" placeholder="E-mail" class="input" required>
+        </div>
+        <div class="input_field">
+          <input type="password" name="passwordl" id="passwordl" placeholder="password" class="input">
+        </div>
+
+        <!-- <form action="/login" method="POST"></form> -->
+        
+        <form action="/login" method="get"></form>
+
+        <input type="submit" value="Login" class="btn" onclick="login()" /></td>
+
+
+
+      </div>
+
+
+
+      <div class="register">
+        <form action="/register" method="POST">
+          <div class="input_field">
+            <input type="text" name="Usernamer" id="Usernamer" placeholder="Username" class="input" required>
+          </div>
+          <div class="input_field">
+            <input type="email" name="emailr" id="emailr" size="15" maxlength="30" placeholder="E-mail" class="input" required>
+          </div>
+          <div class="input_field">
+            <input type="password" name="passwordr" id="passwordr" placeholder="password" class="input">
+          </div>
+          <div id="select_users">
+
+            <select name="Users" id="User">
+              <option value="Admin">Admin</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Student">Student</option>
+            </select>
+          </div>
+
+          <input type="submit" name="submitr" id="submitr" value="Create Account" class="btn" onclick="registration()" /></td>
+        </form>
+
+
+
+      </div>
+
+
+
+    </div>
+  </div>
+  </form>
+</body>
+
+</html>
