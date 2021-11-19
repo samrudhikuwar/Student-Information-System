@@ -9,39 +9,94 @@
 </head>
 
 <body>
-    <h3></3>
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
 
-    <div id="select_users">
+    </script>
+    <script>
 
-        <select name="Users" id="User">
-          <option value="Admin">Admin</option>
-          <option value="Teacher">Teacher</option>
-          <option value="Student">Student</option>
-        </select>
-      </div>
-    <table>
-        <tr>
-            
-            <td>
-                <table class="list" id="List">
-                    <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        $(document).ready(function () {
+            displayData();
+        });
+        async function displayData() {
+            const result = await axios.get(`http://localhost:3005/getData`);
 
-                    </tbody>
+            var registerdata = JSON.stringify(result.data);
+
+            registerdata = JSON.parse(registerdata);
+
+            alert(registerdata);
+
+            //   const result=  db.getCollectionInfos().map( (uname) => ({[uname]: studentcollection[uname].find().toArray().length}) )
+
+            var html = "<table border='1|1'>";
+            for (var i = 0; i < registerdata.length; i++) {
+                html += "<th>" + "Username";
+                html += "<th>" + "Email";
+                html += "<th>" + "User";
+                    html += "<th>" + "Oprations";   
+                html += "<tr>";
+                html += "<td>" + registerdata[i].userName + "</td>";
+                html += "<td>" + registerdata[i].email + "</td>";
+                html += "<td>" + registerdata[i].userType + "</td>";
+                html += "<td>" +"<button type='button' onclick='userEdit(this);' class='btn btn-default'>" + "<span class='glyphicon glyphicon-remove' />" +"</button>" + +"</td>";
+                html += "<td>" +"<button type='button' onclick='userDelete(this);' class='btn btn-default'>" + "<span class='glyphicon glyphicon-remove' />" +"</button>" + +"</td>";
+
+                html += "</tr>";
+
+            }
+            html += "</table>";
+            $("div").html(html);
+
+        }
+
+        function displayDataAlert() {
+            alert(ok);
+
+        }
+        window.onload = displayData;
+
+    </script>
+        
+
+    <div id="loginUserSelect">
+        <div id="adminUserSelect">
+
+            <h3>
+                </3>
+
+
+                <div id="select_users">
+
+                    <select name="Users" id="User">
+                        <option value="Admin">Admin</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Student">Student</option>
+                    </select>
+                </div>
+                <table>
+                    <tr>
+
+                        <td>
+                            <table class="list" id="List">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Password</th>
+                                        <th>Usertype</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
                 </table>
-            </td>
-        </tr>
-    </table>
-    <script src="script.js"></script>
+                <script src="script.js"></script>
 </body>
 
 </html>
-
