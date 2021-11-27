@@ -117,3 +117,10 @@ border-radius: 20px;
  background-color:#9ac4fa;
  box-sizing: border-box;
 }
+
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: DarkSalmon;
+  color: white;
+}
