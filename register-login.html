@@ -15,33 +15,33 @@
   </script>
 
   <script>
-      async function login() {
-      var uname = document.getElementById("emaill").value;
+    async function login() {
+      var email = document.getElementById("emaill").value;
       var pwd = document.getElementById("passwordl").value;
       var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      var output =  await axios.get(`http://localhost:3005/login/${uname}`)
-      output=output.data 
+      var output = await axios.get(`http://localhost:3005/login/${email}`)
+      output = output.data
 
-      if (uname == '') {
-        alert("please enter user name.");
+      if (email == '') {
+        alert("please enter Email Id.");
       }
       else if (pwd == '') {
         alert("enter the password");
       }
-      else if (!filter.test(uname)) {
+      else if (!filter.test(email)) {
         alert("Enter valid email id.");
       }
       else if (pwd.length < 6 || pwd.length > 6) {
         alert("Password min and max length is 6.");
       }
-      else if (uname != output) {
-        alert("User Name Not Found");
-      }  
+      else if (email != output) {
+        alert("User Not Found");
+      }
       else {
-        alert('Thank You for Login');
-    window.onload = function () {
-    document.getElementById("menu").innerHTML='<form action="/login" method="get"></form>';
-    }
+        alert('Login Successful');
+        window.onload = function () {
+          document.getElementById("menu").innerHTML = '<form action="/login" method="get"></form>';
+        }
         window.location = '/admin-dashboard.html';
       }
     }
@@ -51,27 +51,19 @@
     }
   </script>
   <script>
-    function registration() {
+    async function registration() {
 
-      var uname = document.getElementById("Usernamer").value;
       var email = document.getElementById("emailr").value;
       var pwd = document.getElementById("passwordr").value;
-      var User = document.getElementById("User").value
+      var roles = document.getElementById("Roles").value
 
-
-
+      console.log(roles);
 
       var pwd_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/;
       var letters = /^[A-Za-z]+$/;
       var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-      if (uname == '') {
-        alert('Please enter the username');
-      }
-      else if (!letters.test(uname)) {
-        alert('Name field required only alphabet characters');
-      }
-      else if (email == '') {
+      if (email == '') {
         alert('Please enter your user email id');
       }
       else if (!filter.test(email)) {
@@ -89,26 +81,65 @@
       else if (document.getElementById("passwordr").value.length > 12) {
         alert('Password max length is 12');
       }
-      else if (document.getElementById("User").value == "") {
+      else if (roles == "Please select") {
         alert('Please select User');
       }
       else {
+        let output = await axios.get(`http://localhost:3005/getEmailData/${email}`);
 
-        alert('Registration Successful');
+        output = output.data;
+
+        if (output.email == email) {
+          console.log(output.count);
+          alert('User Email is already Registered');
+        } else {
+          let output1 = await axios.get(`http://localhost:3005/registerRole`);
+          output1 = output1.data;
+
+          if (roles == output1[0].userRoles ) {
+            alert("Admin already Exists");
+
+          } else {
+            const user = {
+              dbemail: email,
+              password: pwd,
+              role: roles
+            };
+
+            axios.post('http://localhost:3005/register', user);
+            alert('Registration Successful');
+          }
+        }
+
       }
+
     }
+
+
+
     function clearFunc() {
-      document.getElementById("Usernamer").value = "";
       document.getElementById("emailr").value = "";
       document.getElementById("passwordr").value = "";
-      document.getElementById("User").value = "";
+      document.getElementById("UserRoles").value = "";
     }
 
   </script>
-<script>
+  <!-- <script>
 
-
-</script>
+function EnableDisable(submitr) {
+        //Reference the Button.
+        var btnSubmit = document.getElementById("submitr");
+ 
+        //Verify the TextBox value.
+        if (submitr.value.trim() != "") {
+            //Enable the TextBox when TextBox has value.
+            btnSubmit.disabled = false;
+        } else {
+            //Disable the TextBox when TextBox is empty.
+            btnSubmit.disabled = true;
+        }
+    };
+</script> -->
 
   <script>
     $(document).ready(function () {
@@ -151,17 +182,22 @@
       <div class="login">
         <div class="input_field">
 
-          <input type="text" name="emaill" id="emaill" size="15" maxlength="30" placeholder="E-mail" class="input" required>
+          <label for="email">Email</label>
+          <input type="text" name="emaill" id="emaill" size="15" maxlength="30" placeholder="E-mail" class="input"
+            required>
         </div>
         <div class="input_field">
+          <label for="password">Password</label>
           <input type="password" name="passwordl" id="passwordl" placeholder="password" class="input">
         </div>
 
         <!-- <form action="/login" method="POST"></form> -->
-        
+
         <form action="/login" method="get"></form>
 
         <input type="submit" value="Login" class="btn" onclick="login()" /></td>
+
+       
 
 
 
@@ -170,26 +206,26 @@
 
 
       <div class="register">
-        <form action="/register" method="POST">
-          <div class="input_field">
-            <input type="text" name="Usernamer" id="Usernamer" placeholder="Username" class="input" required>
-          </div>
-          <div class="input_field">
-            <input type="email" name="emailr" id="emailr" size="15" maxlength="30" placeholder="E-mail" class="input" required>
-          </div>
-          <div class="input_field">
-            <input type="password" name="passwordr" id="passwordr" placeholder="password" class="input">
-          </div>
-          <div id="select_users">
+        <div class="input_field">
+          <label for="emaill">Email</label><input type="email" name="emailr" id="emailr" size="15" maxlength="30"
+            placeholder="E-mail" class="input" required>
+        </div>
+        <div class="input_field">
+          <label for="password">Password</label><input type="password" name="passwordr" id="passwordr"
+            placeholder="password" class="input">
+        </div>
+        <div id="select_Roles">
 
-            <select name="Users" id="User">
-              <option value="Admin">Admin</option>
-              <option value="Teacher">Teacher</option>
-              <option value="Student">Student</option>
-            </select>
-          </div>
+          <select name="UserRoles" id="Roles">
 
-          <input type="submit" name="submitr" id="submitr" value="Create Account" class="btn" onclick="registration()" /></td>
+            <option value="Please select">Please Select</option>
+            <option value="Admin">Admin</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Student">Student</option>
+          </select>
+        </div>
+        <input type="submit" name="submitr" id="submitr" value="Create Account" onclick="registration()" class="btn" />
+
         </form>
 
 
@@ -202,5 +238,3 @@
   </div>
   </form>
 </body>
-
-</html>
