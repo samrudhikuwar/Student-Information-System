@@ -1,30 +1,77 @@
+  
 <!DOCTYPE html>
 <html>
 
+    <style>
+        h2 {text-align: center;}
+        table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+
 <head>
     <title>
-        Dashboard
+        Admin Dashboard
     </title>
     <link rel="stylesheet" href="admin.css">
+    
+
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-2 text-center">
+[![enter image description here][1]][1]
+            <!-- side bar -->
+              <div class="row">
+                <div class="profile-sidenav-cell">
+                    <span class="glyphicon glyphicon-user custom-icon"></span>   
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="profile-sidenav-cell">
+                <ul class="side-menu-tabs">
+                  <li><a href="/profile">Profile</a></li>
+                  <li><a href="#">Trips</a></li>
+                  <li><a href="/logout">Log Out</a></li>
+                </ul>
+
+                </div>
+              </div>
+            <!-- side bar end -->
+          </div>
+
+
+          <div class="col-sm-10" style="background-color: green;">Page Content</div>
+        </div>
+      </div>
+
+
+
+    
 </head>
 
 <body>
 
+   
+
+
+    <!-- <div class="header">
+        <h1>Header</h1>
+        <p>My supercool header</p>
+      </div> -->
+    <!-- <h2 id="myHeading">Admin Dashboard</h2> -->
 
     <div id="loginUserSelect">
         <div id="adminUserSelect">
 
-            <h3>Dashboard</h3>
-
-
-                <div id="select_users">
-
-                    <select name="Users" id="User">
-                        <option value="Admin">Admin</option>
-                        <option value="Teacher">Teacher</option>
-                        <option value="Student">Student</option>
-                    </select>
-                </div>
                 
                 <script src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
@@ -35,38 +82,65 @@
     <script>
 
         $(document).ready(function () {
+            function myFunction() {
+  var x = document.getElementById("myHeading");
+}
             displayData();
         });
         async function displayData() {
-            const result = await axios.get(`http://localhost:3005/getData`);
 
+
+            // var User1 = document.getElementById("User").value;
+            // User=User1.data ;
+            // alert(User);
+            
+            // if(userType=="Admin"){
+            var result = await axios.get(`http://localhost:3005/getAdminData`);
             var registerdata = JSON.stringify(result.data);
-
             registerdata = JSON.parse(registerdata);
+            
+            // }
+            // if(userType=="Teacher"){
+            // result = await axios.get(`http://localhost:3005/getTeacherData`);
+            // registerdata = JSON.stringify(result.data);
+            // registerdata = JSON.parse(registerdata);
+            // }
+            // if(userType=="Student"){
+            // result = await axios.get(`http://localhost:3005/getStudentData/${uname}`);
+            // registerdata = JSON.stringify(result.data);
+            // registerdata = JSON.parse(registerdata);
+            // }
+
 
 
             //   const result=  db.getCollectionInfos().map( (uname) => ({[uname]: studentcollection[uname].find().toArray().length}) )
-            
-            var html = "<table border='1|1'>";
-            html += "<th>" + "Username";
+           
+            var html = "<table border='1|1' >";                
                 html += "<th>" + "Email";
-                html += "<th>" + "UserType";
+                html += "<th>" + "UserRoles";
+                html += "<th>" + "Oprations";   
+
             for (var i = 0; i < registerdata.length; i++) {
                 html += "<tr>";
 
-                    // html += "<th>" + "Oprations";   
                 
-                html += "<td>" + registerdata[i].userName + "</td>";
                 html += "<td>" + registerdata[i].email + "</td>";
-                html += "<td>" + registerdata[i].userType + "</td>";
-                // html += "<td>" +"<button type='button' onclick='userEdit(this);' class='btn btn-default'>" + "<span class='glyphicon glyphicon-remove' />" +"</button>" + +"</td>";
+                html += "<td>" + registerdata[i].userRoles + "</td>";
+                html += "<td>" +"<button type='button' onclick='userEdit();' class='btn btn-default'>" +"Update"+"</button>"+"</td>";
+                html += "<td>" +"<button type='button' onclick='userDelete();' class='btn btn-default'>" +"Delete"+"</button>"+"</td>";
                 // html += "<td>" +"<button type='button' onclick='userDelete(this);' class='btn btn-default'>" + "<span class='glyphicon glyphicon-remove' />" +"</button>" + +"</td>";
 
                 html += "</tr>";
 
             }
             html += "</table>";
+
+         html += "<footer>"+"<p>"+"Website:Student Information System"+"</p>"+"</footer>";
+
+
             $("div").html(html);
+
+       
 
         }
 
@@ -78,8 +152,11 @@
 
     </script>
         
-
+        <footer>
+            <p>Website:Student Information System</p>
+          </footer>
     
 </body>
 
 </html>
+
